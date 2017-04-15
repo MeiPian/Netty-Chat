@@ -29,4 +29,8 @@ public class ChatConnection {
 
 	}
 
+	public ChannelHandlerContext getChannelHandlerContext() {
+		return ctx;
+	}
+
 }
