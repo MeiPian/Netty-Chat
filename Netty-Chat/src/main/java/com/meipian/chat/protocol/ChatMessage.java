@@ -83,5 +83,5 @@ public class ChatMessage {
 	public void setBodyByteSize(int bodyByteSize) {
 		this.bodyByteSize = bodyByteSize;
 	}
-   
+ 
 }
