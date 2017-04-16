@@ -15,6 +15,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  *         将传递到ChannelOutboundHandler。 2、ctx.write()方法执行后，需要调用flush()方法才能令它立即执行。
  *         3、ChannelOutboundHandler
  *         在注册的时候需要放在最后一个ChannelInboundHandler之前，否则将无法传递到ChannelOutboundHandler。
+ *         不过这个暂时没有用到
  */
 public class HeartBeatResponseHandler extends ChannelInboundHandlerAdapter {
 
