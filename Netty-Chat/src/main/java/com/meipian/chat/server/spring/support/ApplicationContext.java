@@ -4,7 +4,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public class ApplicationContext {
 
-	private static ConfigurableApplicationContext ctx = null;
+	private  ConfigurableApplicationContext ctx = null;
 
 	private static ApplicationContext instance;
 
@@ -13,12 +13,25 @@ public class ApplicationContext {
 
 	}
 
-	public static void init(ConfigurableApplicationContext ctx) {
-		ApplicationContext applicationContext = new ApplicationContext();
-		applicationContext.ctx = ctx;
-
+	public  ConfigurableApplicationContext getCtx() {
+		return ctx;
 	}
-	public   static ApplicationContext getInstance(){
-		return  instance;
+
+	public  void setCtx(ConfigurableApplicationContext ctx) {
+		this.ctx = ctx;
+	}
+
+	public static void init(ConfigurableApplicationContext ctx) {
+		synchronized (ApplicationContext.class) {
+			if (instance == null || ctx == null) {
+				ApplicationContext applicationContext = new ApplicationContext();
+				instance = applicationContext;
+				instance.setCtx(ctx);
+			}
+		}
+	}
+
+	public static ApplicationContext getInstance() {
+		return instance;
 	}
 }

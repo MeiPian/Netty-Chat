@@ -25,9 +25,10 @@ public class HeartBeatResponseHandler extends ChannelInboundHandlerAdapter {
 		ChatMessage chatMsg = (ChatMessage) msg;
 
 		if (MessagType.HEARTBEAT == chatMsg.getType()) {
+			ctx.writeAndFlush(chatMsg); // 如果是心跳包直接返回。而不是传递
 
-			ctx.writeAndFlush(chatMsg);
-			ctx.fireChannelRead(chatMsg); 
+		} else {
+			ctx.fireChannelRead(chatMsg);
 		}
 	}
 

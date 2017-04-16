@@ -1,6 +1,9 @@
 package com.meipian.chat.server.codec;
 
+import org.apache.commons.logging.LogFactory;
+
 import com.meipian.chat.protocol.ChatMessage;
+import com.meipian.chat.server.handler.ChatDispatchHandler;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -13,6 +16,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
  *
  */
 public class ChatMessageEncoder extends MessageToByteEncoder<ChatMessage> {
+	private static final org.apache.commons.logging.Log logger = LogFactory.getLog(ChatMessageEncoder.class);
 
 	@Override
 	protected void encode(ChannelHandlerContext arg0, ChatMessage message, ByteBuf arg2) throws Exception {
@@ -24,7 +28,7 @@ public class ChatMessageEncoder extends MessageToByteEncoder<ChatMessage> {
 		arg2.writeDouble(message.getLongitude());
 		arg2.writeDouble(message.getLatitude());
 		arg2.writeInt(message.getAction());
-
+		
 	}
 
 }

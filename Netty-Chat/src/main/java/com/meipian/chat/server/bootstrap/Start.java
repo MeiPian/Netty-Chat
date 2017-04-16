@@ -1,31 +1,31 @@
 package com.meipian.chat.server.bootstrap;
 
+import java.net.InetSocketAddress;
+
+import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ImportResource;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.scheduling.annotation.EnableScheduling;
+
+import com.meipian.chat.server.spring.support.ApplicationContext;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 @EnableAutoConfiguration
-@ComponentScan(basePackages = { "com.meipian" })
-@EnableScheduling
-@ImportResource({ "classpath:mybatis.xml", "classpath:config/redis.xml" })
-@PropertySource(value = { "classpath:price.properties" })
 public class Start {
+	private static final org.apache.commons.logging.Log logger = LogFactory.getLog(Start.class);
 
 	public static void main(String[] args) throws Exception {
-
 		ConfigurableApplicationContext ctx = SpringApplication.run(Start.class);
 		int port = Integer.valueOf(ctx.getEnvironment().getProperty("port"));
+		ApplicationContext.init(ctx);
 		run(port);
-
+		
 	}
 
 	public static void run(int port) throws Exception {
@@ -33,10 +33,15 @@ public class Start {
 		EventLoopGroup workGroup = new NioEventLoopGroup();
 		try {
 			ServerBootstrap bootstrap = new ServerBootstrap().group(bossGroup, workGroup)
-					.channel(NioServerSocketChannel.class).childHandler(new ChatServerInitializer());
-			bootstrap.bind(port).sync().channel().closeFuture().sync();
-
-		} finally {
+					.channel(NioServerSocketChannel.class).localAddress(new InetSocketAddress(port))
+					.childHandler(new ChatServerInitializer()).option(ChannelOption.SO_BACKLOG, 128)
+					.childOption(ChannelOption.SO_KEEPALIVE, true);
+			// 绑定端口，开始接收进来的连接
+			ChannelFuture future = bootstrap.bind(port).sync();
+			logger.info(" netty  server start in port:" + port);
+			future.channel().closeFuture().sync();// 子线程开始监听
+		} catch (Exception e) {
+			logger.error(" netty  server start  error in port:" + port,e);
 			bossGroup.shutdownGracefully();
 			workGroup.shutdownGracefully();
 		}
