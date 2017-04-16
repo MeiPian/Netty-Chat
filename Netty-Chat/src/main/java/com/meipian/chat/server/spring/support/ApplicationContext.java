@@ -19,8 +19,6 @@ public class ApplicationContext {
 
 	}
 	public   static ApplicationContext getInstance(){
-		
-		
 		return  instance;
 	}
 }
