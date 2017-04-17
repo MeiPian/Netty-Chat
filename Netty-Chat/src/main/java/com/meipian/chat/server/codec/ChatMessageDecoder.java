@@ -32,23 +32,20 @@ public class ChatMessageDecoder extends LengthFieldBasedFrameDecoder {
 
 	@Override
 	protected Object decode(ChannelHandlerContext arg0, ByteBuf arg1) throws Exception {
-		
 		System.out.println(arg1.readableBytes());
 		ChatMessage message = new ChatMessage();
 		int contentLength = arg1.readInt();
-		logger.debug("ChatMessage content length:" + contentLength);
-		message.setLength(contentLength);
 		byte type = arg1.readByte();
 		message.setType(type);
 		/**
 		 * type 一个字节+uid的四个字节
 		 */
-		if (contentLength  <= 5 || type == MessagType.HEARTBEAT) {
+		if (contentLength <= 5 || type == MessagType.HEARTBEAT) {
 			return message;
 		}
-		long uid = arg1.readLong();
+		int uid = arg1.readInt();
 		message.setUid(uid);
-		long oid = arg1.readLong();
+		int oid = arg1.readInt();
 		message.setOid(oid);
 		double longitude = arg1.readDouble();
 		message.setLatitude(longitude);
