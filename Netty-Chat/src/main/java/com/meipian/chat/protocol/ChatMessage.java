@@ -75,7 +75,7 @@ public class ChatMessage {
 
 		private ArrayList<Byte> bytesList = new ArrayList<>();
 
-		public ByteBuilder newBuilder() {
+		public static  ByteBuilder newBuilder() {
 
 			return new ByteBuilder();
 		}
