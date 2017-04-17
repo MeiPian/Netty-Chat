@@ -1,6 +1,6 @@
 package com.meipian.chat.server.codec;
 
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import com.meipian.chat.protocol.ChatMessage;
 import com.meipian.chat.protocol.MessagType;
@@ -10,7 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 public class ChatMessageDecoder extends LengthFieldBasedFrameDecoder {
-	private static final org.apache.commons.logging.Log logger = LogFactory.getLog(ChatMessageDecoder.class);
+	private static Logger logger = Logger.getLogger(ChatMessageDecoder.class);
 	/**
 	 * |length|content| length指的是实际内容的长度
 	 * http://blog.csdn.net/educast/article/details/47706599

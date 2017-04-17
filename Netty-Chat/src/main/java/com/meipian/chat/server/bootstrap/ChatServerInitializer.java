@@ -2,7 +2,7 @@ package com.meipian.chat.server.bootstrap;
 
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import com.meipian.chat.server.codec.ChatMessageDecoder;
 import com.meipian.chat.server.handler.ChatDispatchHandler;
@@ -13,7 +13,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 
 public class ChatServerInitializer extends ChannelInitializer<SocketChannel> {
-	private static final org.apache.commons.logging.Log logger = LogFactory.getLog(ChatServerInitializer.class);
+	private static  Logger  logger=Logger.getLogger(ChatServerInitializer.class);
 
 	@Override
 	protected void initChannel(SocketChannel arg0) throws Exception {

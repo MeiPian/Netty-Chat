@@ -2,7 +2,7 @@ package com.meipian.chat.server.bootstrap;
 
 import java.net.InetSocketAddress;
 
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -18,7 +18,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 @EnableAutoConfiguration
 public class Start {
-	private static final org.apache.commons.logging.Log logger = LogFactory.getLog(Start.class);
+	private static  Logger  logger=Logger.getLogger(Start.class);
 
 	public static void main(String[] args) throws Exception {
 		ConfigurableApplicationContext ctx = SpringApplication.run(Start.class);
