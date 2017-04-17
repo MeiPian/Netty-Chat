@@ -30,30 +30,38 @@ public class ChatMessageDecoder extends LengthFieldBasedFrameDecoder {
 		super(maxFrameLength, lengthFieldOffset, lengthFieldLength, lengthAdjustment, initialBytesToStrip);
 	}
 
+	/**
+	 * 如果返回为null会一直循环。直到非空
+	 */
 	@Override
 	protected Object decode(ChannelHandlerContext arg0, ByteBuf arg1) throws Exception {
 		System.out.println(arg1.readableBytes());
-		ChatMessage message = new ChatMessage();
-		int contentLength = arg1.readInt();
-		byte type = arg1.readByte();
-		message.setType(type);
-		/**
-		 * type 一个字节+uid的四个字节
-		 */
-		if (contentLength <= 5 || type == MessageType.HEARTBEAT) {
+		if (arg1.readableBytes() >= 5) {
+			int contentLength = arg1.readInt();
+			if (contentLength == 0) {
+				return null;
+			}
+			ChatMessage message = new ChatMessage();
+			byte type = arg1.readByte();
+			message.setType(type);
+			/**
+			 * type 一个字节的类型+uid的四个字节。就是5个字节
+			 */
+			if (contentLength == 5 && type == MessageType.HEARTBEAT) {
+				return message;
+			}
+			int uid = arg1.readInt();
+			message.setUid(uid);
+			int oid = arg1.readInt();
+			message.setOid(oid);
+			double longitude = arg1.readDouble();
+			message.setLatitude(longitude);
+			double latitude = arg1.readDouble();
+			message.setLatitude(latitude);
+			int action = arg1.readInt();
+			message.setAction(action);
 			return message;
 		}
-		int uid = arg1.readInt();
-		message.setUid(uid);
-		int oid = arg1.readInt();
-		message.setOid(oid);
-		double longitude = arg1.readDouble();
-		message.setLatitude(longitude);
-		double latitude = arg1.readDouble();
-		message.setLatitude(latitude);
-		int action = arg1.readInt();
-		message.setAction(action);
-		return message;
-
+		return null;
 	}
 }
