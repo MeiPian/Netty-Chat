@@ -75,10 +75,11 @@ public class ChatMessage {
 
 		private ArrayList<Byte> bytesList = new ArrayList<>();
 
-		public static  ByteBuilder newBuilder() {
+		public static ByteBuilder newBuilder() {
 
 			return new ByteBuilder();
 		}
+
 		public ByteBuilder setType(byte type) {
 			bytesList.add(type);
 			return this;
@@ -126,20 +127,18 @@ public class ChatMessage {
 			}
 			return this;
 		}
-
 		public byte[] build(ChatMessage message) {
-
+			int actualContentSzie = bytesList.size();
 			this.setType(message.getType()).setUid(message.getUid()).setOid(message.getOid())
 					.setLongitude(message.getLongitude()).setLatitude(message.getLatitude())
 					.setAction(message.getAction());
-			int length = bytesList.size();
-			byte[] bytes = new byte[length];
-			for (int i = 0; i < length; i++) {
-				bytes[i] = bytesList.get(i).byteValue();
+			byte[] bytes = new byte[actualContentSzie + 4];
+			ByteUtils.int2Byte(actualContentSzie, bytes, 0);
+			for (int i = 0; i < actualContentSzie; i++) {
+				bytes[i + 4] = bytesList.get(i).byteValue();
 			}
 			return bytes;
 		}
 
 	}
-
 }

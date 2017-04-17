@@ -25,7 +25,6 @@ public class Start {
 		int port = Integer.valueOf(ctx.getEnvironment().getProperty("port"));
 		ApplicationContext.init(ctx);
 		run(port);
-		
 	}
 
 	public static void run(int port) throws Exception {

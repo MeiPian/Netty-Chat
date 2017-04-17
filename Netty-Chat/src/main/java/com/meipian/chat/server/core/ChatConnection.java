@@ -20,14 +20,11 @@ public class ChatConnection {
 	}
 
 	public void sendResponse(ChatMessage resp) {
-
 		ctx.writeAndFlush(resp);
-
 	}
 
 	public void close() {
 		ctx.close();
-
 	}
 
 	public ChannelHandlerContext getChannelHandlerContext() {
