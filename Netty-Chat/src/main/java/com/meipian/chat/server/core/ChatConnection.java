@@ -26,6 +26,7 @@ public class ChatConnection {
 	}
 
 	public void close() {
+		ctx.close();
 
 	}
 
