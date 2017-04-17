@@ -1,6 +1,6 @@
 package com.meipian.chat.protocol;
 
-public class MessagType {
+public class MessageType {
 	// 消息类型：0x00表示心跳 
 	public static final byte HEARTBEAT = 0x00;
 	//0x02 表示用户上线(连接成功) 

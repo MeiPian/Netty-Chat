@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 
 import com.meipian.chat.server.codec.ChatMessageDecoder;
+import com.meipian.chat.server.codec.ChatMessageEncoder;
 import com.meipian.chat.server.handler.ChatDispatchHandler;
 import com.meipian.chat.server.handler.ChatReadTimeoutHandler;
 import com.meipian.chat.server.spring.support.ApplicationContext;
@@ -22,7 +23,7 @@ public class ChatServerInitializer extends ChannelInitializer<SocketChannel> {
 		arg0.pipeline().addLast(new ChatMessageDecoder());
 		arg0.pipeline().addLast("heart_beat_handler", new ChatReadTimeoutHandler(heartBeatTimeOut, TimeUnit.SECONDS));
 		arg0.pipeline().addLast("chat_dispatch_handler", new ChatDispatchHandler());
-		
+		arg0.pipeline().addLast("outbound_encode",new ChatMessageEncoder());
 	}
 
 }

@@ -5,9 +5,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import io.netty.channel.ChannelHandlerContext;
 
-
 /**
  * 单机会受到内存的限制。想一想怎么做分布式
+ * 
  * @author xujianxing
  *
  */
@@ -39,13 +39,14 @@ public class SessionManager {
 		return sessions.get(uid);
 	}
 
-	public void addSession(ChannelHandlerContext ctx, long uid) {
+	public Session addSession(ChannelHandlerContext ctx, long uid) {
 		ChatConnection connection = new ChatConnection(uid, ctx);
 		Session session = new Session();
 		session.setConnection(connection);
 		session.setListener(listener);
 		sessions.put(uid, session);
 		sessionsWithContext.put(ctx, session);
+		return session;
 	}
 
 	public static SessionManager getInstance() {

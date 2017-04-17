@@ -3,7 +3,7 @@ package com.meipian.chat.server.codec;
 import org.apache.log4j.Logger;
 
 import com.meipian.chat.protocol.ChatMessage;
-import com.meipian.chat.protocol.MessagType;
+import com.meipian.chat.protocol.MessageType;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -40,7 +40,7 @@ public class ChatMessageDecoder extends LengthFieldBasedFrameDecoder {
 		/**
 		 * type 一个字节+uid的四个字节
 		 */
-		if (contentLength <= 5 || type == MessagType.HEARTBEAT) {
+		if (contentLength <= 5 || type == MessageType.HEARTBEAT) {
 			return message;
 		}
 		int uid = arg1.readInt();
