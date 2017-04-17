@@ -16,7 +16,7 @@ public class ChatMessage {
 	private double latitude;
 	private int action; // 动作类型，由客户端自己定义
 
-	private Map<String, String> body; // 自定义消息内容。如果大于1k直接丢弃不处理
+	private Map<String, String> body; // 自定义消息内容。如果大于1k直接丢弃不处理。此字段暂时不用
 	private int length; // 整个实际内容的消息的长度（上面七个变量之和）
 
 	public byte getType() {
