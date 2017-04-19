@@ -3,6 +3,8 @@ package com.meipian.chat.server.core;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.meipian.chat.session.Session;
+
 import io.netty.channel.ChannelHandlerContext;
 
 /**

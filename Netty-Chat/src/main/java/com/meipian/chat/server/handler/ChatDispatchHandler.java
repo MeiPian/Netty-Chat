@@ -5,8 +5,9 @@ import org.apache.log4j.Logger;
 import com.meipian.chat.protocol.ChatMessage;
 import com.meipian.chat.protocol.MessageType;
 import com.meipian.chat.server.core.MessageHandler;
-import com.meipian.chat.server.core.Session;
 import com.meipian.chat.server.core.SessionManager;
+import com.meipian.chat.session.Session;
+
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 

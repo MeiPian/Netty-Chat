@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.meipian.chat.protocol.ChatMessage;
 import com.meipian.chat.protocol.MessageType;
+import com.meipian.chat.session.Session;
 
 @Service
 public class MessageHandler {

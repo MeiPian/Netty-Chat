@@ -1,6 +1,8 @@
-package com.meipian.chat.server.core;
+package com.meipian.chat.session;
 
 import com.meipian.chat.protocol.ChatMessage;
+import com.meipian.chat.server.core.ChatConnection;
+import com.meipian.chat.server.core.SessionOperationListener;
 
 public class Session {
 
