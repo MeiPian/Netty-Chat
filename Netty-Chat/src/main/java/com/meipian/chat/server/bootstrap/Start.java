@@ -33,7 +33,7 @@ public class Start {
 		try {
 			ServerBootstrap bootstrap = new ServerBootstrap().group(bossGroup, workGroup)
 					.channel(NioServerSocketChannel.class).localAddress(new InetSocketAddress(port))
-					.childHandler(new ChatServerInitializer()).option(ChannelOption.SO_BACKLOG, 128)
+					.childHandler(new ChatServerInitializer()).option(ChannelOption.SO_BACKLOG, 1024)
 					.childOption(ChannelOption.SO_KEEPALIVE, true);
 			// 绑定端口，开始接收进来的连接
 			ChannelFuture future = bootstrap.bind(port).sync();
