@@ -5,9 +5,6 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import com.meipian.chat.protocol.MessageType;
-import com.meipian.chat.server.utils.ByteUtils;
-
 public class Client {
 	public static void main(String[] args) throws InterruptedException, UnknownHostException, IOException {
 		final int port = 10000;

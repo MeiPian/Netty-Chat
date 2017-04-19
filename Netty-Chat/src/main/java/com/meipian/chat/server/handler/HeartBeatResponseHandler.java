@@ -1,7 +1,7 @@
 package com.meipian.chat.server.handler;
 
 import com.meipian.chat.protocol.ChatMessage;
-import com.meipian.chat.protocol.MessageType;
+import com.meipian.chat.protocol.MessageTypeConstant;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -21,10 +21,8 @@ public class HeartBeatResponseHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-
 		ChatMessage chatMsg = (ChatMessage) msg;
-
-		if (MessageType.HEARTBEAT == chatMsg.getType()) {
+		if (MessageTypeConstant.HEARTBEAT == chatMsg.getType()) {
 			ctx.writeAndFlush(chatMsg); // 如果是心跳包直接返回。而不是传递
 
 		} else {

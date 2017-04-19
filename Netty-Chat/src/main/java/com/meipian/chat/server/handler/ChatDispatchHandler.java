@@ -3,7 +3,7 @@ package com.meipian.chat.server.handler;
 import org.apache.log4j.Logger;
 
 import com.meipian.chat.protocol.ChatMessage;
-import com.meipian.chat.protocol.MessageType;
+import com.meipian.chat.protocol.MessageTypeConstant;
 import com.meipian.chat.server.core.MessageHandler;
 import com.meipian.chat.server.core.SessionManager;
 import com.meipian.chat.session.Session;
@@ -19,9 +19,9 @@ public class ChatDispatchHandler extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
 		ChatMessage message = (ChatMessage) msg;
-		if (MessageType.USER_ONLINE == message.getType()) {
+		if (MessageTypeConstant.USER_ONLINE == message.getType()) {
 			Session session = SessionManager.getInstance().addSession(ctx, message.getUid());
-			message.setType(MessageType.ACK_SUCCESS);
+			message.setType(MessageTypeConstant.ACK_SUCCESS);
 			session.sendResponse(message);
 		} else {
 			handler.dispatch(message);
