@@ -121,17 +121,20 @@ public class ChatMessage {
 		}
 
 		private ByteBuilder setAction(int action) {
+			
 			byte[] actionByte = ByteUtils.int2Byte(action);
 			for (byte b : actionByte) {
 				bytesList.add(b);
 			}
 			return this;
 		}
+
 		public byte[] build(ChatMessage message) {
-			int actualContentSzie = bytesList.size();
+			
 			this.setType(message.getType()).setUid(message.getUid()).setOid(message.getOid())
 					.setLongitude(message.getLongitude()).setLatitude(message.getLatitude())
 					.setAction(message.getAction());
+			int actualContentSzie = bytesList.size();
 			byte[] bytes = new byte[actualContentSzie + 4];
 			ByteUtils.int2Byte(actualContentSzie, bytes, 0);
 			for (int i = 0; i < actualContentSzie; i++) {
@@ -141,4 +144,11 @@ public class ChatMessage {
 		}
 
 	}
+
+	@Override
+	public String toString() {
+		return "ChatMessage [type=" + type + ", uid=" + uid + ", oid=" + oid + ", longitude=" + longitude
+				+ ", latitude=" + latitude + ", action=" + action + ", body=" + body + "]";
+	}
+	
 }

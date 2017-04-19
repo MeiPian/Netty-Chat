@@ -14,12 +14,10 @@ import io.netty.channel.ChannelHandlerContext;
  *
  */
 public class SessionManager {
-	private static final Map<Long, Session> sessions = new ConcurrentHashMap<>();
+	private static final Map<Integer, Session> sessions = new ConcurrentHashMap<>();
 	private static final Map<ChannelHandlerContext, Session> sessionsWithContext = new ConcurrentHashMap<>();
 	private static final SessionManager instance = new SessionManager();
-
 	private static SessionOperationListener listener = null;
-
 	public SessionManager() {
 		init();
 	}
@@ -29,23 +27,23 @@ public class SessionManager {
 			@Override
 			public void doClose(Session session) {
 				sessions.remove(session.getUid());
-				sessionsWithContext.remove(session.getConnection().getChannelHandlerContext());
+				sessionsWithContext.remove(session.getCtx());
 				session = null;
 			}
 		};
 
 	}
 
-	public Session getSessionByUid(long uid) {
+	public Session getSessionByUid(int uid) {
 
 		return sessions.get(uid);
 	}
 
-	public Session addSession(ChannelHandlerContext ctx, long uid) {
-		ChatConnection connection = new ChatConnection(uid, ctx);
+	public Session addSession(ChannelHandlerContext ctx, int uid) {
 		Session session = new Session();
-		session.setConnection(connection);
 		session.setListener(listener);
+		session.setCtx(ctx);
+		session.setUid(uid);
 		sessions.put(uid, session);
 		sessionsWithContext.put(ctx, session);
 		return session;

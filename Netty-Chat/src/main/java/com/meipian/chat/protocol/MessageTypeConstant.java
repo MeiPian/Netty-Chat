@@ -11,5 +11,11 @@ public class MessageTypeConstant {
 	public  static  final  byte ACK_SUCCESS=0x04;
 	// 表示正常消息 0x10
 	public static final byte NORMAL_MESSAGE = 0x10;
+	
+	/**
+	 * 用户拒绝连接
+	 */
+	
+	 public  static  final  byte     REFUSE=0x05;
 
 }

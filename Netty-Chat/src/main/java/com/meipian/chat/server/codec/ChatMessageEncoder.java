@@ -20,6 +20,7 @@ public class ChatMessageEncoder extends MessageToByteEncoder<ChatMessage> {
 	@Override
 	protected void encode(ChannelHandlerContext arg0, ChatMessage message, ByteBuf arg2) throws Exception {
 		arg2.writeBytes(ChatMessage.ByteBuilder.newBuilder().build(message));
+		logger.info(message);
 	}
 
 }

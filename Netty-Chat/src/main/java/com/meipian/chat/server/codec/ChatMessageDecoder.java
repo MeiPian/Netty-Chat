@@ -36,7 +36,9 @@ public class ChatMessageDecoder extends LengthFieldBasedFrameDecoder {
 	@Override
 	protected Object decode(ChannelHandlerContext arg0, ByteBuf arg1) throws Exception {
 		System.out.println(arg1.readableBytes());
-		if (arg1.readableBytes() >= 5) {
+		if (arg1.readableBytes() <5) {
+				return null;
+		}
 			int contentLength = arg1.readInt();
 			if (contentLength == 0) {
 				return null;
@@ -46,7 +48,7 @@ public class ChatMessageDecoder extends LengthFieldBasedFrameDecoder {
 			message.setType(type);
 			/**
 			 * type 一个字节的类型+uid的四个字节。就是5个字节
-			 */
+			 */	
 			if (contentLength == 5 && type == MessageTypeConstant.HEARTBEAT) {
 				return message;
 			}
@@ -61,7 +63,4 @@ public class ChatMessageDecoder extends LengthFieldBasedFrameDecoder {
 			int action = arg1.readInt();
 			message.setAction(action);
 			return message;
-		}
-		return null;
-	}
-}
+}}

@@ -23,7 +23,7 @@ public class ChatReadTimeoutHandler extends ReadTimeoutHandler {
 	@Override
 	protected void readTimedOut(ChannelHandlerContext ctx) throws Exception {
 		super.readTimedOut(ctx);
-		SessionManager.getInstance().getSessionByChannelHandlerContext(ctx).destory();
+		SessionManager.getInstance().getSessionByChannelHandlerContext(ctx).close();
 
 	}
 

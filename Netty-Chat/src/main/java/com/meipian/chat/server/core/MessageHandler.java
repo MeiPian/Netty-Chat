@@ -6,24 +6,52 @@ import com.meipian.chat.protocol.ChatMessage;
 import com.meipian.chat.protocol.MessageTypeConstant;
 import com.meipian.chat.session.Session;
 
+import io.netty.channel.ChannelHandlerContext;
+
 @Service
 public class MessageHandler {
 
 	private SessionManager sessionManager = SessionManager.getInstance();
 
-	public void dispatch(ChatMessage message) {
+	public void dispatch(ChannelHandlerContext ctx, ChatMessage message) {
+		Session session = SessionManager.getInstance().getSessionByUid(message.getUid());
 		byte type = message.getType();
-		if (MessageTypeConstant.ACK_SUCCESS == message.getType()) {
-			Session session = sessionManager.getSessionByUid(message.getUid());
+		if (MessageTypeConstant.USER_ONLINE == message.getType()) {
+			if (session != null) {
+				session.close();
+			}
+			message.setType(MessageTypeConstant.ACK_SUCCESS);
+			session = SessionManager.getInstance().addSession(ctx, message.getUid());
 			session.sendResponse(message);
+			return;
 		}
-		Session session = sessionManager.getSessionByUid(message.getUid());
+		
+		if(session==null){
+			message.setType(MessageTypeConstant.REFUSE);
+			ctx.writeAndFlush(message);
+			ctx.fireChannelRead(message);
+			return;
+			
+		}
+		if (MessageTypeConstant.ACK_SUCCESS == message.getType()) {
+			session = sessionManager.getSessionByUid(message.getUid());
+			session.sendResponse(message);
+			return;
+		}
+
 		if (MessageTypeConstant.USER_OFFLINE == type) {
-			session.destory();
+			if (session != null) {
+				message.setType(MessageTypeConstant.USER_OFFLINE);
+				session.sendResponse(message);
+				session.close();
+
+			}
+			return;
 		}
 		if (MessageTypeConstant.NORMAL_MESSAGE == type)
 			session = sessionManager.getSessionByUid(message.getOid());
-		session.sendResponse(message);
+		    session.sendResponse(message);
+	      	return;
 	}
 
 }

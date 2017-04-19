@@ -1,36 +1,21 @@
 package com.meipian.chat.session;
 
 import com.meipian.chat.protocol.ChatMessage;
-import com.meipian.chat.server.core.ChatConnection;
 import com.meipian.chat.server.core.SessionOperationListener;
+
+import io.netty.channel.ChannelHandlerContext;
 
 public class Session {
 
-	private ChatConnection connection;
+	private long uid; // 我的ID
+
+	private ChannelHandlerContext ctx;
 
 	private SessionOperationListener listener;
 
 	public void sendResponse(ChatMessage response) {
-
-		connection.sendResponse(response);
-	}
-
-	public long getUid() {
-		return connection.getId();
-	}
-
-	public ChatConnection getConnection() {
-		return connection;
-	}
-
-	public void setConnection(ChatConnection connection) {
-		this.connection = connection;
-	}
-
-	public void destory() {
-		connection.close();
-		listener.doClose(this);
-
+		ctx.writeAndFlush(response);
+		ctx.fireChannelRead(response);
 	}
 
 	public SessionOperationListener getListener() {
@@ -39,6 +24,28 @@ public class Session {
 
 	public void setListener(SessionOperationListener listener) {
 		this.listener = listener;
+	}
+
+	public int getUid() {
+		return (int) this.uid;
+	}
+
+	
+	public ChannelHandlerContext getCtx() {
+		return ctx;
+	}
+
+	public void setCtx(ChannelHandlerContext ctx) {
+		this.ctx = ctx;
+	}
+
+	public void setUid(long uid) {
+		this.uid = uid;
+	}
+
+	public void close() {
+		ctx.close();
+		listener.doClose(this);
 	}
 
 }
