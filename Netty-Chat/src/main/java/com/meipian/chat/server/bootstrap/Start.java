@@ -38,7 +38,7 @@ public class Start {
 			// 绑定端口，开始接收进来的连接
 			ChannelFuture future = bootstrap.bind(port).sync();
 			logger.info(" netty  server start in port:" + port);
-			future.channel().closeFuture().sync();// 子线程开始监听
+			future.channel().closeFuture().sync();// 子线程开始监听。
 		} catch (Exception e) {
 			logger.error(" netty  server start  error in port:" + port, e);
 			bossGroup.shutdownGracefully();
